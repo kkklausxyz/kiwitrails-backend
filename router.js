@@ -1,16 +1,16 @@
 const Router = require("@koa/router");
 const router = new Router();
 // router.prefix("/agentapi");
-// 对话
+// Chat conversation
 const chat = require("@/controller/chat");
-// 文件上传中间件
+// File upload middleware
 const uploadFile = require("@/config/uploadfile");
-// 工具查询
+// Tool query
 const calltool = require("@/controller/calltool");
-// 对话接口
+// Chat interface
 router.post("/chatMessage", chat.chatMessage);
 
-// 查询天气
+// Weather query
 router.get("/queryWeather", calltool.queryWeather);
 
 module.exports = router;

@@ -5,7 +5,7 @@ class CallToolController {
   async queryWeather(ctx) {
     const { city } = ctx.query;
     console.log(city);
-    await Validate.nullCheck(city, "请传入城市地区", "city");
+    await Validate.nullCheck(city, "Please provide city/region", "city");
     try {
       const res = await axios.get(queryWeatherUrl, {
         params: { area: city },
@@ -18,12 +18,16 @@ class CallToolController {
         ctx.send(
           [],
           200,
-          "没有查询到该城市的天气哦，你可以重新尝试哦！",
+          "Weather data for this city was not found, please try again!",
           null,
           201
         );
       } else {
-        throw { msg: "查询出现异常错误了", code: 400, validate: null };
+        throw {
+          msg: "An error occurred during query",
+          code: 400,
+          validate: null,
+        };
       }
     }
   }

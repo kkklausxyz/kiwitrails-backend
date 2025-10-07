@@ -8,19 +8,19 @@ const openai = new OpenAI({
 });
 
 class ChatController {
-  //对话，流式输出
+  // Chat conversation with streaming output
   async chatMessage(ctx) {
     const { chatMessage } = ctx.request.body;
-    console.log(chatMessage);
-    // 校验
+
+    // Validation
     await Validate.isarrayCheck(
       chatMessage,
-      "chatMessage字段不能为空",
+      "chatMessage field cannot be empty",
       "chatMessage"
     );
-    // 确保消息数组不为空且包含完整的对话历史
+    // Ensure message array is not empty and contains complete conversation history
     if (chatMessage.length === 0) {
-      throw { msg: "消息数组不能为空", code: 400, validate: null };
+      throw { msg: "Message array cannot be empty", code: 400, validate: null };
     }
     let messages = [
       {
@@ -30,15 +30,15 @@ class ChatController {
       ...chatMessage,
     ];
     const completion = await openai.chat.completions.create({
-      model: "deepseek-chat", //模型列表
+      model: "deepseek-chat", // Model list
       messages,
       stream: true,
     });
     ctx.status = 200;
     for await (const chunk of completion) {
       const delta = chunk.choices[0].delta;
-      console.log(delta);
-      // 处理思考过程
+
+      // Handle reasoning process
       if (delta.reasoning_content) {
         const resObj = JSON.stringify({
           type: "content",
@@ -50,7 +50,7 @@ class ChatController {
         const buffer = Buffer.from(resObj);
         ctx.res.write(buffer);
       }
-      // 处理总结内容
+      // Handle summary content
       else if (delta.content) {
         const resObj = JSON.stringify({
           type: "content",
@@ -64,14 +64,14 @@ class ChatController {
       }
     }
   }
-  // 图片上传
+  // Image upload
   async uploadFile(ctx) {
     console.log(ctx.file);
     console.log(ctx.host);
     if (ctx.file === undefined) {
-      throw { msg: "请上传正确的图片", code: 422, validate: null };
+      throw { msg: "Please upload a valid image", code: 422, validate: null };
     }
-    // 客户端
+    // Client
     ctx.send(`http://${ctx.host}/${ctx.file.destination}${ctx.file.filename}`);
   }
 }
