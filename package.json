@@ -1,5 +1,5 @@
 {
-  "name": "kiwitrails-backend",
+  "name": "agent-node",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,9 +10,19 @@
   "description": "",
   "dependencies": {
     "@koa/cors": "^5.0.0",
-    "@koa/router": "^14.0.0",
-    "koa": "^3.0.1",
+    "@koa/multer": "^3.0.2",
+    "@koa/router": "^13.1.0",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "dotenv": "^17.2.3",
+    "koa": "^2.15.4",
     "koa-bodyparser": "^4.4.1",
-    "koa-json": "^2.0.2"
+    "koa-json": "^2.0.2",
+    "koa-static": "^5.0.0",
+    "log4js": "^6.9.1",
+    "module-alias": "^2.2.3",
+    "mongoose": "^8.10.1",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.85.2"
   }
 }
