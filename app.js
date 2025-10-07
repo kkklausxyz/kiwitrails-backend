@@ -17,11 +17,20 @@ const router = require("@/router");
 const responseHandler = require("@/config/result");
 // Error handling middleware
 const errorHandler = require("@/config/errorhandler");
+// Security middlewares
+const rateLimiter = require("@/config/ratelimiter");
+const messageValidator = require("@/config/messagevalidator");
+const usageMonitor = require("@/config/usagemonitor");
+
 app.use(json());
 app.use(bodyParser());
 app.use(cors());
 app.use(responseHandler);
 app.use(errorHandler);
+// Apply security middlewares
+app.use(usageMonitor.middleware());
+app.use(rateLimiter.middleware());
+app.use(messageValidator.middleware());
 app.use(static(path.join(__dirname)));
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(3000);
